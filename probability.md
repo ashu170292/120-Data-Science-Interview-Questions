@@ -2,17 +2,44 @@
 
 
 #### 1. Bobo the amoeba has a 25%, 25%, and 50% chance of producing 0, 1, or 2 offspring, respectively. Each of Bobo’s descendants also have the same probabilities. What is the probability that Bobo’s lineage dies out?
-  - p=1/4+1/4*p+1/2*p^2 => p=1/2
+  - p = P(probability of an amoeba dying out)
+  - p = 0.25 (Bobo has no offspring, aka bobo dies out) + 0.25 * P(bobo's single child dies out) + 0.5 * P(bobo's 2 offspring both die out)
+  - p = 0.25 + 0.25p + 0.5p^2
+  - 2p^2 - 3p + 1 = 0
+  - p = 0.5
 #### 2. In any 15-minute interval, there is a 20% probability that you will see at least one shooting star. What is the proba- bility that you see at least one shooting star in the period of an hour?
-  - 1-(0.8)^4. Or, we can use Poisson processes
+  - There are 4 fifteen minute intervals in an hour.
+  - The chance that we do NOT see a single shooting star in a 15 minute interval is (1-0.2) = 0.8
+  - The chance that, in 4 separate intervals, we do not see a shooting star is (0.8)^4
+  - The chance that the above does not happen is 1 - (0.8)^4
 #### 3. How can you generate a random number between 1 - 7 with only a die?
-* Launch it 3 times: each throw sets the nth bit of the result. 
-* For each launch, if the value is 1-3, record a 0, else 1.
-The result is between 0 (000) and 7 (111), evenly spread (3 independent throw). Repeat the throws if 0 was obtained: the process stops on evenly spread values.
+    while True:
+        roll1, roll2 = roll_die(), roll_die()
+        num = roll1 * 6 + roll2
+        if num == 42:
+            continue
+        return num % 7
+---
 #### 4. How can you get a fair coin toss if someone hands you a coin that is weighted to come up heads more often than tails?
-  - Flip twice and if HT then H, TH then T.
+  - Let's say P(H) = 0.6 and P(T) = 0.4. Then
+  
+    |Flips|Prob|
+    |----|---|
+    |HH|0.36|
+    |HT|0.24|
+    |TH|0.24|
+    |TT|0.TT|
+
+  - So you can see that HT and TH are equally likely.
+    ```
+    while True:
+        flip1, flip2 = flip(), flip()
+        if flip1 == flip2:
+            continue
+        return flip1
+    ```
 #### 5. You have an 50-50 mixture of two normal distributions with the same standard deviation. How far apart do the means need to be in order for this distribution to be bimodal?
-  - more than two standard deviations
+  - [ A mixture of two normal distributions with equal standard deviations is bimodal only if their means differ by at least twice the common standard deviation](https://en.wikipedia.org/wiki/Multimodal_distribution#Mixture_of_two_normal_distributions)
 #### 6. Given draws from a normal distribution with known parameters, how can you simulate draws from a uniform distribution?
   - plug in the value to the CDF of the same random variable
 #### 7. A certain couple tells you that they have two children, at least one of which is a girl. What is the probability that they have two girls?
